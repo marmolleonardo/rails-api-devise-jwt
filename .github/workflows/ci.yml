@@ -5,10 +5,7 @@ on:
   push:
     branches: [ main ]
 
-jobs:
-  add_permisions:
-     run: chmod +x bin/importmap
-     
+jobs:     
   scan_ruby:
     runs-on: ubuntu-latest
 
