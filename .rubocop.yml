@@ -1,8 +1,79 @@
-# Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+plugins:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rspec
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-# Layout/SpaceInsideArrayLiteralBrackets:
-#   Enabled: false
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'db/migrate/**/*'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'node_modules/**/*'
+    - 'config/initializers/devise.rb'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'storage/**/*'
+
+# API-specific configurations
+
+# Allow longer blocks in controller actions
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
+    - 'spec/**/*'
+    - 'config/environments/**/*'
+
+# Allow classes with multiple responsibilities in controllers
+Metrics/ClassLength:
+  Max: 150
+  Exclude:
+    - 'app/controllers/**/*'
+
+# Allow longer methods for API endpoints
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+    - 'app/controllers/**/*'
+
+# Turn off documentation requirements for API controllers
+Style/Documentation:
+  Enabled: false
+
+# API responses often need more complex conditionals
+Metrics/AbcSize:
+  Max: 30
+
+# Prevent Rubocop from complaining about JSON formatting in API responses
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*'
+    - 'config/initializers/**/*'
+    - 'config/routes.rb'
+
+# JWT tokens can be long strings
+Style/IfUnlessModifier:
+  Enabled: true
+  Exclude:
+    - 'app/controllers/api/**/*'
+
+# API Controller specific settings
+Rails/HttpStatus:
+  Enabled: true
+  EnforcedStyle: symbolic
+
+# Specific settings for RSpec
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/MultipleExpectations:
+  Max: 5
+
+RSpec/NestedGroups:
+  Max: 4

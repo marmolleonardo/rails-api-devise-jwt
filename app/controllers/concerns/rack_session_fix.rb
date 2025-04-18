@@ -1,6 +1,6 @@
 module RackSessionFix
   extend ActiveSupport::Concern
-  
+
   class FakeSession < Hash
     def enabled?
       false
@@ -22,15 +22,15 @@ module RackSessionFix
       { id: nil }
     end
   end
-  
+
   included do
     before_action :set_fake_session
-    
+
     private
-    
+
     def set_fake_session
-      request.env['rack.session'] = FakeSession.new
-      request.env['rack.session.options'] = { skip: true }
+      request.env["rack.session"] = FakeSession.new
+      request.env["rack.session.options"] = { skip: true }
     end
   end
 end

@@ -3,7 +3,7 @@ module Api
     class RegistrationsController < Devise::RegistrationsController
       respond_to :json
       skip_before_action :verify_authenticity_token
-      
+
       def create
         build_resource(sign_up_params)
 
@@ -20,8 +20,8 @@ module Api
           }, status: :ok
         else
           render json: {
-            status: { 
-              code: 422, 
+            status: {
+              code: 422,
               message: "User couldn't be created successfully.",
               errors: resource.errors.full_messages
             }

@@ -38,7 +38,7 @@ module RailsJwt
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-    
+
     # Configure the application as API-only to disable session handling
     config.api_only = true
   end
