@@ -25,9 +25,8 @@ jobs:
 
       - name: Fix script permissions
         run: |
-          chmod +x bin/brakeman
-          chmod +x bin/rubocop
-          chmod +x bin/importmap
+          chmod +x bin/*
+          git update-index --chmod=+x bin/*
 
       - name: Setup test database
         run: bin/rails db:test:prepare
@@ -49,7 +48,9 @@ jobs:
           bundler-cache: true
 
       - name: Fix script permissions
-        run: chmod +x bin/importmap
+        run: |
+          chmod +x bin/*
+          git update-index --chmod=+x bin/*
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
@@ -67,7 +68,9 @@ jobs:
           bundler-cache: true
 
       - name: Fix script permissions
-        run: chmod +x bin/rubocop
+        run: |
+          chmod +x bin/*
+          git update-index --chmod=+x bin/*
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
