@@ -5,7 +5,11 @@ on:
   push:
     branches: [ main ]
 
-jobs:     
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
   scan_ruby:
     runs-on: ubuntu-latest
 
@@ -18,9 +22,15 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-      
-      - name: Fix permissions
-        run: chmod +x bin/importmap
+
+      - name: Fix script permissions
+        run: |
+          chmod +x bin/brakeman
+          chmod +x bin/rubocop
+          chmod +x bin/importmap
+
+      - name: Setup test database
+        run: bin/rails db:test:prepare
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
@@ -35,8 +45,11 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.6'
+          ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Fix script permissions
+        run: chmod +x bin/importmap
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
@@ -53,6 +66,8 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Fix script permissions
+        run: chmod +x bin/rubocop
+
       - name: Lint code for consistent style
         run: bin/rubocop -f github
-
