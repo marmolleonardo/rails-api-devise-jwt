@@ -87,5 +87,13 @@ jobs:
           chmod +x bin/*
           git update-index --chmod=+x bin/*
 
-      - name: Lint code for consistent style
-        run: bin/rubocop -f github
+      - name: Check code style (without auto-correct)
+        run: bin/rubocop --format github --format progress
+
+      - name: Suggest auto-corrections
+        if: failure()
+        run: |
+          echo "### RuboCop Auto-corrections Available 🛠️" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`diff" >> $GITHUB_STEP_SUMMARY
+          bin/rubocop --auto-gen-config --auto-correct-all --format diff >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
