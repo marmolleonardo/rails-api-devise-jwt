@@ -13,8 +13,8 @@ jobs:
   scan_ruby:
     runs-on: ubuntu-latest
     env:
-      RAILS_MASTER_KEY: ${ secrets.RAILS_MASTER_KEY }
-      SECRET_KEY_BASE: ${ secrets.SECRET_KEY_BASE }
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
 
     steps:
       - name: Checkout code
@@ -29,7 +29,7 @@ jobs:
       - name: Set Rails Master Key
         run: |
           touch config/master.key
-          echo $RAILS_MASTER_KEY > config/master.key
+          echo "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
 
       - name: Fix script permissions
         run: |
@@ -45,8 +45,8 @@ jobs:
   scan_js:
     runs-on: ubuntu-latest
     env:
-      RAILS_MASTER_KEY: ${ secrets.RAILS_MASTER_KEY }
-      SECRET_KEY_BASE: ${ secrets.SECRET_KEY_BASE }
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
 
     steps:
       - name: Checkout code
@@ -69,8 +69,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     env:
-      RAILS_MASTER_KEY: ${ secrets.RAILS_MASTER_KEY }
-      SECRET_KEY_BASE: ${ secrets.SECRET_KEY_BASE }
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
 
     steps:
       - name: Checkout code
